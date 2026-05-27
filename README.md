@@ -1,91 +1,36 @@
-# reactorcoregames.github.io
+![Reactorcore Games](assets/banner.jpg)
 
-Personal homepage for **Reactorcore** — game designer, developer, modder, 2D/3D artist, and AI prompt engineer. Serves as a home base replacing Linktree, and hosts a privacy policy required for Pinterest API access.
+# Reactorcore Games
 
-**Live site:** https://reactorcoregames.github.io
+**Game designer. Developer. Modder. 2D/3D Artist. AI Prompt Engineer.**
 
----
+One person. A lot of creative output. Games, mods, tools, and digital art — built solo across too many platforms, driven by community support and a genuine love of making things.
 
-## Pages
-
-| Page | URL | Description |
-|---|---|---|
-| Home | `/` | Link hub — bio, social links, support/hire links, contact |
-| Catalogue | `/catalogue/` | All 227 projects across every platform, searchable and grouped by domain |
-| Privacy Policy | `/privacy/` | Required for Pinterest API app registration |
+### [Visit the site →](https://reactorcoregames.github.io)
 
 ---
 
-## Tech stack
+## What's here
 
-- Pure HTML + CSS + vanilla JS
-- No frameworks, no build tools, no npm
-- Hosted on GitHub Pages (push to `main` → auto-deploys)
+**[Home](https://reactorcoregames.github.io)** — The hub. Find everything: support links, social media, professional work, and contact.
 
----
+**[Catalogue](https://reactorcoregames.github.io/catalogue/)** — 227 projects across every platform. Games, mods, tools, art, LEGO mecha builds, and more — all in one place.
 
-## Local preview
-
-Run the included launcher:
-```
-launch-site.bat
-```
-Or manually:
-```
-python -m http.server 8080
-```
-Then open `http://localhost:8080` in a browser. A local server is required because the catalogue page fetches `assets/posts.csv` via `fetch()`, which browsers block on `file://` URLs.
+**[Privacy Policy](https://reactorcoregames.github.io/privacy/)** — No data collection, no tracking, no cookies. Ever.
 
 ---
 
-## Updating the catalogue
+## Find me elsewhere
 
-The catalogue page is driven entirely by `assets/posts.csv`. To add, remove, or edit entries, overwrite that file. The page re-renders on next load — no build step needed.
-
-CSV format:
-```
-title,url,hashtags
-My Project,https://example.com/project,#tag1 #tag2 #tag3
-```
-
----
-
-## Updating links or text
-
-All links and copy live directly in the HTML files — no CMS, no data layer. Edit `index.html` for the home page, `privacy/index.html` for the privacy policy.
-
-**Disabled links** (commented out in `index.html`): Unity Asset Store and Rebrickable are present but commented out. Uncomment the block in the "Other highlights" island to re-enable them.
-
----
-
-## Changing colors
-
-All color values are CSS variables defined at the top of `assets/style.css`. Edit there — don't touch the partial files for color changes.
-
----
-
-## File structure
-
-```
-index.html
-favicon.ico
-robots.txt
-sitemap.xml
-privacy/
-    index.html
-catalogue/
-    index.html
-assets/
-    style.css          ← CSS entry point (@imports partials)
-    style-base.css     ← Variables, reset, island + button base
-    style-index.css    ← Home page layout
-    style-privacy.css  ← Privacy page layout
-    style-catalogue.css ← Catalogue layout
-    style-responsive.css ← Media queries
-    posts.csv          ← Catalogue data (227 entries)
-    banner.jpg
-    collage.jpg
-    mood1.jpg / mood2.jpg
-    qr-small.png / qr-large.png
-    icons/             ← Platform icons
-```
+| | |
+|---|---|
+| [Itch.io](https://reactorcore.itch.io/) | Games, mods, tools, and more |
+| [Patreon](https://www.patreon.com/c/ReactorcoreGames) | Game design articles, project news & rewards |
+| [Game Design Portfolio](https://rc-game-design-portfolio.pages.dev/) | Professional work and hire info |
+| [YouTube](https://www.youtube.com/@reactorcoregames) | Videos |
+| [X / Twitter](https://x.com/ReactorcoreDev) | Updates and posts |
+| [Bluesky](https://bsky.app/profile/reactorcoregames.bsky.social) | Updates and posts |
+| [DeviantArt](https://www.deviantart.com/reactorcore3/) | Art gallery |
+| [Discord](https://discord.gg/UdRavGhj47) | Community server |
+| [Ko-fi](https://ko-fi.com/reactorcoregames) | One-time support |
+| [Buy Me an Orange](https://www.buymeacoffee.com/reactorcoregames) | One-time support |
