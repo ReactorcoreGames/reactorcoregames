@@ -1,0 +1,65 @@
+/* =============================================
+   Partials — must come before any other rules
+   ============================================= */
+@import url('style-base.css');
+@import url('style-index.css');
+@import url('style-privacy.css');
+@import url('style-catalogue.css');
+@import url('style-responsive.css');
+
+/* =============================================
+   CSS Variables
+   ============================================= */
+:root {
+  /* === Base === */
+  --bg:              #111314;
+  --bg-gap:          #0b0d0e;
+
+  /* === Island colors === */
+  --island-red:      #4a1a1a;
+  --island-red-hi:   #6e2a2a;
+  --island-red-lo:   #2e0e0e;
+
+  --island-green:    #1a3d22;
+  --island-green-hi: #2d6038;
+  --island-green-lo: #0d2012;
+
+  --island-blue:     #162040;
+  --island-blue-hi:  #243468;
+  --island-blue-lo:  #0a1228;
+
+  /* === Button colors (per island rule) === */
+  /* on red  → green buttons */
+  --btn-green:       #1a3d22;
+  --btn-green-hi:    #2d6038;
+  --btn-green-lo:    #0d2012;
+  --btn-green-text:  #7dffaa;
+
+  /* on green → blue buttons */
+  --btn-blue:        #162040;
+  --btn-blue-hi:     #243468;
+  --btn-blue-lo:     #0a1228;
+  --btn-blue-text:   #7ab8ff;
+
+  /* on blue  → red buttons */
+  --btn-red:         #4a1a1a;
+  --btn-red-hi:      #6e2a2a;
+  --btn-red-lo:      #2e0e0e;
+  --btn-red-text:    #ff8888;
+
+  /* === Neon accent — orange only for pulse + hover === */
+  --neon:            #ff6a00;
+  --neon-dim:        #cc5200;
+  --neon-glow:       rgba(255, 106, 0, 0.22);
+  --neon-glow-btn:   rgba(255, 106, 0, 0.45);
+
+  /* === Text === */
+  --text:            #ffffff;
+  --text-dim:        rgba(255, 255, 255, 0.65);
+  --text-muted:      rgba(255, 255, 255, 0.38);
+
+  /* === Layout === */
+  --island-gap:      5px;
+  --island-radius:   7px;
+  --island-pad:      1.1rem 1.25rem;
+}

@@ -1,0 +1,255 @@
+/* =============================================
+   Reset + Base
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { color: var(--neon); text-decoration: none; }
+a:hover { color: #ffaa55; text-decoration: underline; }
+img { display: block; max-width: 100%; }
+
+/* =============================================
+   Animated background — neon orange flow between islands
+   ============================================= */
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    #0b0d0e 0%,
+    #007bff 25%,
+    #0b0d0e 50%,
+    #007bff 75%,
+    #0b0d0e 100%
+  );
+  background-size: 100% 200%;
+  animation: bgFlow 5s linear infinite;
+}
+
+@keyframes bgFlow {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 0% -100%; }
+}
+
+/* =============================================
+   Island base classes
+   ============================================= */
+.island {
+  border-radius: var(--island-radius);
+  padding: var(--island-pad);
+  position: relative;
+  overflow: hidden;
+}
+
+.island-red {
+  background: var(--island-red);
+  border-top: 2px solid var(--island-red-hi);
+  border-left: 2px solid var(--island-red-hi);
+  border-bottom: 2px solid var(--island-red-lo);
+  border-right: 2px solid var(--island-red-lo);
+}
+
+.island-green {
+  background: var(--island-green);
+  border-top: 2px solid var(--island-green-hi);
+  border-left: 2px solid var(--island-green-hi);
+  border-bottom: 2px solid var(--island-green-lo);
+  border-right: 2px solid var(--island-green-lo);
+}
+
+.island-blue {
+  background: var(--island-blue);
+  border-top: 2px solid var(--island-blue-hi);
+  border-left: 2px solid var(--island-blue-hi);
+  border-bottom: 2px solid var(--island-blue-lo);
+  border-right: 2px solid var(--island-blue-lo);
+}
+
+/* =============================================
+   Chunky beveled buttons
+   ============================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 0.15s, box-shadow 0.15s, transform 0.1s;
+  border: none;
+  line-height: 1.3;
+}
+
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Green button (on red islands) */
+.btn-green {
+  background: var(--btn-green);
+  color: var(--btn-green-text);
+  border-top: 2px solid var(--btn-green-hi);
+  border-left: 2px solid var(--btn-green-hi);
+  border-bottom: 3px solid var(--btn-green-lo);
+  border-right: 2px solid var(--btn-green-lo);
+  box-shadow: inset 0 1px 0 var(--btn-green-hi), inset 0 -3px 0 var(--btn-green-lo);
+}
+.btn-green:hover {
+  filter: brightness(1.2);
+  box-shadow: inset 0 1px 0 var(--btn-green-hi), inset 0 -3px 0 var(--btn-green-lo), 0 0 14px var(--neon-glow-btn);
+  color: var(--btn-green-text);
+}
+
+/* Blue button (on green islands) */
+.btn-blue {
+  background: var(--btn-blue);
+  color: var(--btn-blue-text);
+  border-top: 2px solid var(--btn-blue-hi);
+  border-left: 2px solid var(--btn-blue-hi);
+  border-bottom: 3px solid var(--btn-blue-lo);
+  border-right: 2px solid var(--btn-blue-lo);
+  box-shadow: inset 0 1px 0 var(--btn-blue-hi), inset 0 -3px 0 var(--btn-blue-lo);
+}
+.btn-blue:hover {
+  filter: brightness(1.25);
+  box-shadow: inset 0 1px 0 var(--btn-blue-hi), inset 0 -3px 0 var(--btn-blue-lo), 0 0 14px var(--neon-glow-btn);
+  color: var(--btn-blue-text);
+}
+
+/* Red button (on blue islands) */
+.btn-red {
+  background: var(--btn-red);
+  color: var(--btn-red-text);
+  border-top: 2px solid var(--btn-red-hi);
+  border-left: 2px solid var(--btn-red-hi);
+  border-bottom: 3px solid var(--btn-red-lo);
+  border-right: 2px solid var(--btn-red-lo);
+  box-shadow: inset 0 1px 0 var(--btn-red-hi), inset 0 -3px 0 var(--btn-red-lo);
+}
+.btn-red:hover {
+  filter: brightness(1.25);
+  box-shadow: inset 0 1px 0 var(--btn-red-hi), inset 0 -3px 0 var(--btn-red-lo), 0 0 14px var(--neon-glow-btn);
+  color: var(--btn-red-text);
+}
+
+/* =============================================
+   Button with icon + label layout
+   ============================================= */
+.btn-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.btn-label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.btn-label-main {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.btn-label-sub {
+  font-size: 0.7rem;
+  font-weight: 400;
+  opacity: 0.7;
+  margin-top: 0.1rem;
+  line-height: 1.3;
+}
+
+/* =============================================
+   Shared utilities
+   ============================================= */
+
+/* Section header inside island */
+.island-header {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* Link button grid */
+.link-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.link-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.link-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.link-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.link-grid-1 { grid-template-columns: 1fr; }
+
+.link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  text-decoration: none;
+}
+
+/* Footer island internals */
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.footer-inner a {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.footer-inner a:hover {
+  color: var(--neon);
+  text-decoration: none;
+}
+
+/* Subpage top row — shared by catalogue and privacy */
+.subpage-top-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--island-gap);
+  align-items: stretch;
+}
+
+.subpage-back-island {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--island-pad);
+}

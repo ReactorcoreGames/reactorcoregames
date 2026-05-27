@@ -1,0 +1,170 @@
+/* =============================================
+   Catalogue page layout
+   ============================================= */
+.catalogue-body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.catalogue-grid {
+  flex: 1;
+  display: grid;
+  gap: var(--island-gap);
+  padding: var(--island-gap);
+  grid-template-rows: auto 1fr auto;
+}
+
+.catalogue-h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.catalogue-subtitle {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 0.3rem;
+}
+
+#catalogue-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Back island left, title island right */
+.catalogue-top-row {
+  grid-template-columns: auto 1fr;
+}
+
+/* Constrain back button island to its natural content width */
+.catalogue-top-row .subpage-back-island {
+  width: fit-content;
+}
+
+.catalogue-content-island {
+  overflow: auto;
+}
+
+.catalogue-controls {
+  margin-bottom: 0.75rem;
+}
+
+/* Domain group */
+.domain-group {
+  margin-bottom: 0.75rem;
+}
+
+.domain-group summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.65rem;
+  background: rgba(0,0,0,0.25);
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  user-select: none;
+  margin-bottom: 0.4rem;
+  transition: background 0.15s;
+}
+
+.domain-group summary:hover { background: rgba(0,0,0,0.4); }
+.domain-group summary::-webkit-details-marker { display: none; }
+
+.domain-group summary .domain-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 5px solid currentColor;
+  transition: transform 0.18s;
+  flex-shrink: 0;
+}
+
+.domain-group[open] summary .domain-arrow {
+  transform: rotate(90deg);
+}
+
+.domain-group summary .domain-count {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.catalogue-card {
+  border-radius: 5px;
+  padding: 0.6rem 0.8rem 0.5rem;
+  border-left-width: 3px;
+  border-left-style: solid;
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.15s;
+  min-height: 68px;
+}
+
+.catalogue-card:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 10px var(--neon-glow);
+}
+
+.card-deco {
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  height: 100%;
+  opacity: 0.10;
+  pointer-events: none;
+}
+
+.catalogue-card a {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  line-height: 1.3;
+  position: relative;
+}
+
+.catalogue-card a:hover {
+  text-decoration: underline;
+  color: #ffffff;
+}
+
+.catalogue-card .card-tags {
+  font-size: 0.67rem;
+  margin-top: 0.28rem;
+  opacity: 0.99;
+  position: relative;
+  line-height: 1.4;
+}
+
+.catalogue-loading {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 3rem;
+  font-size: 0.9rem;
+}

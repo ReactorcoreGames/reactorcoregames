@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalogue | Reactorcore</title>
+  <meta name="description" content="Full catalogue of games, mods, tools, art, and posts by Reactorcore.">
+  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+
+<div class="animated-bg"></div>
+
+<div class="catalogue-body">
+<div class="catalogue-grid">
+
+  <!-- Top row: back to home (green) + title (red) -->
+  <div class="subpage-top-row catalogue-top-row">
+    <div class="island island-green subpage-back-island">
+      <a href="/" class="btn btn-blue">← Back to Home</a>
+    </div>
+    <div class="island island-red">
+      <h1 class="catalogue-h1">Reactorcore — Catalogue</h1>
+      <p class="catalogue-subtitle">
+        A full index of games, mods, tools, art posts, and updates published across all platforms by Reactorcore.
+        Click any domain to expand its entries.
+      </p>
+      <p id="catalogue-count">Loading entries…</p>
+    </div>
+  </div>
+
+  <!-- Content island (green) -->
+  <div class="island island-green catalogue-content-island">
+    <div class="catalogue-controls">
+      <button class="btn btn-blue" id="toggle-all-btn" onclick="toggleAllDomains()">Expand All</button>
+    </div>
+    <div id="catalogue-root">
+      <p class="catalogue-loading">Loading catalogue…</p>
+    </div>
+  </div>
+
+  <!-- Footer island (blue) -->
+  <div class="island island-blue" style="padding: 0.65rem 1.25rem;">
+    <div class="footer-inner">
+      <a href="/">← Home</a>
+      <span>·</span>
+      <a href="/privacy/">Privacy Policy</a>
+      <span>·</span>
+      <span>&copy; Reactorcore. All rights reserved.</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  const PALETTE = [
+    { border: '#ff4444', bg: '#7a1f1f' },
+    { border: '#ff8c00', bg: '#7a3d00' },
+    { border: '#e6d000', bg: '#5a5000' },
+    { border: '#44cc44', bg: '#1a5e1a' },
+    { border: '#4488ff', bg: '#0f2e6e' },
+    { border: '#7755ee', bg: '#2e1a7a' },
+    { border: '#cc44cc', bg: '#5e1a5e' },
+    { border: '#aa7744', bg: '#5a3310' },
+  ];
+
+  function hashStr(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    return h % PALETTE.length;
+  }
+
+  function getDomain(url) {
+    if (!url) return '(unknown)';
+    if (url.startsWith('mailto:')) return url.replace('mailto:', '').split('?')[0].trim();
+    try { return new URL(url).hostname; } catch { return url; }
+  }
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+    return lines.slice(1).map(line => {
+      const fields = [];
+      let cur = '', inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') { inQ = !inQ; }
+        else if (c === ',' && !inQ) { fields.push(cur.trim()); cur = ''; }
+        else { cur += c; }
+      }
+      fields.push(cur.trim());
+      const row = {};
+      headers.forEach((h, i) => { row[h] = (fields[i] || '').replace(/^"|"$/g, ''); });
+      return row;
+    });
+  }
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* Bright pastel tag color: hue-shift the border color +40° and push lightness high */
+  function tagColor(hex) {
+    const r = parseInt(hex.slice(1,3),16)/255, g = parseInt(hex.slice(3,5),16)/255, b = parseInt(hex.slice(5,7),16)/255;
+    const max = Math.max(r,g,b), min = Math.min(r,g,b), d = max - min;
+    let h = 0;
+    if (d > 0) {
+      h = max === r ? ((g-b)/d+6)%6 : max === g ? (b-r)/d+2 : (r-g)/d+4;
+      h *= 60;
+    }
+    return `hsl(${Math.round((h + 40) % 360)},100%,82%)`;
+  }
+
+  /* Seeded SVG decoration — right-edge positioned, per-card random fill colors */
+  function seedSvg(seed) {
+    let rng = seed;
+    const rand = () => { rng = (rng * 1664525 + 1013904223) >>> 0; return rng / 0xffffffff; };
+
+    const randFill = () => `hsl(${Math.floor(rand()*360)},${Math.floor(60+rand()*40)}%,${Math.floor(55+rand()*30)}%)`;
+
+    const shapes = [];
+    const count = 1 + Math.floor(rand() * 5); // 1–5 shapes
+    const shapeTypes = ['circle', 'rect', 'polygon', 'ellipse'];
+
+    for (let i = 0; i < count; i++) {
+      const type = shapeTypes[Math.floor(rand() * shapeTypes.length)];
+      const cx = 100 + rand() * 120; /* bias toward right half of viewBox */
+      const cy = rand() * 200;
+      const size = 15 + rand() * 280;
+      const rot = Math.floor(rand() * 360);
+
+      const fill = randFill();
+      if (type === 'circle') {
+        shapes.push(`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${(size * 0.5).toFixed(1)}" fill="${fill}"/>`);
+      } else if (type === 'ellipse') {
+        const rx = (size * 0.35 + rand() * size * 0.4).toFixed(1);
+        const ry = (size * 0.2 + rand() * size * 0.3).toFixed(1);
+        shapes.push(`<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${rx}" ry="${ry}" fill="${fill}" transform="rotate(${rot},${cx.toFixed(1)},${cy.toFixed(1)})"/>`);
+      } else if (type === 'rect') {
+        const w = (size * (0.4 + rand() * 0.8)).toFixed(1);
+        const h = (size * (0.3 + rand() * 0.7)).toFixed(1);
+        shapes.push(`<rect x="${(cx - size * 0.3).toFixed(1)}" y="${(cy - size * 0.3).toFixed(1)}" width="${w}" height="${h}" fill="${fill}" transform="rotate(${rot},${cx.toFixed(1)},${cy.toFixed(1)})"/>`);
+      } else {
+        const sides = 3 + Math.floor(rand() * 4);
+        const r = size * 0.5;
+        const pts = Array.from({length: sides}, (_, k) => {
+          const a = (k * (360 / sides) + rot) * Math.PI / 180;
+          return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+        }).join(' ');
+        shapes.push(`<polygon points="${pts}" fill="${fill}"/>`);
+      }
+    }
+
+    return `<svg class="card-deco" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">${shapes.join('')}</svg>`;
+  }
+
+  function toggleAllDomains() {
+    const btn = document.getElementById('toggle-all-btn');
+    const groups = document.querySelectorAll('.domain-group');
+    const anyOpen = Array.from(groups).some(g => g.open);
+    groups.forEach(g => { g.open = !anyOpen; });
+    btn.textContent = anyOpen ? 'Expand All' : 'Collapse All';
+  }
+
+  async function loadCatalogue() {
+    const root = document.getElementById('catalogue-root');
+    const countEl = document.getElementById('catalogue-count');
+
+    try {
+      const resp = await fetch('/assets/posts.csv');
+      if (!resp.ok) throw new Error('Failed to fetch posts.csv');
+      const text = await resp.text();
+      const rows = parseCSV(text).filter(r => r.title || r.url);
+
+      countEl.textContent = `${rows.length} entries across all platforms`;
+
+      const groups = new Map();
+      const domainOrder = [];
+      let domainIdx = 4; /* start at blue (index 4), loop through ROYGBIV+Brown */
+      rows.forEach(row => {
+        const domain = getDomain(row.url);
+        if (!groups.has(domain)) {
+          groups.set(domain, { color: PALETTE[domainIdx % PALETTE.length], rows: [] });
+          domainIdx++;
+          domainOrder.push(domain);
+        }
+        groups.get(domain).rows.push(row);
+      });
+
+      root.innerHTML = '';
+
+      domainOrder.forEach(domain => {
+        const { color, rows: domRows } = groups.get(domain);
+
+        const details = document.createElement('details');
+        details.className = 'domain-group';
+        details.open = false; // closed by default
+
+        const safeId = esc(domain).replace(/[^a-z0-9]/gi, '-');
+        details.innerHTML = `
+          <summary>
+            <span class="domain-arrow"></span>
+            <span style="color:${color.border}">${esc(domain)}</span>
+            <span class="domain-count">${domRows.length}</span>
+          </summary>
+          <div class="card-grid" id="grid-${safeId}"></div>
+        `;
+
+        const grid = details.querySelector('.card-grid');
+
+        domRows.forEach((row, idx) => {
+          const seed = hashStr(row.title + row.url + idx) >>> 0;
+          const card = document.createElement('div');
+          card.className = 'catalogue-card';
+          card.style.background = color.bg;
+          card.style.borderLeftColor = color.border;
+          card.innerHTML = `
+            ${seedSvg(seed)}
+            <a href="${esc(row.url)}" target="_blank" rel="noopener">${esc(row.title || row.url)}</a>
+            ${row.hashtags ? `<div class="card-tags" style="color:${tagColor(color.border)}">${esc(row.hashtags)}</div>` : ''}
+          `;
+          grid.appendChild(card);
+        });
+
+        root.appendChild(details);
+      });
+
+    } catch (err) {
+      root.innerHTML = `<p class="catalogue-loading">Could not load catalogue: ${esc(err.message)}</p>`;
+      countEl.textContent = '';
+    }
+  }
+
+  loadCatalogue();
+</script>
+
+</body>
+</html>
